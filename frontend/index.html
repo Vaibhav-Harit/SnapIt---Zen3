@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>snap.it — The AI-Powered Debugger for Elite Developers</title>
+  <meta name="description" content="snap.it is the AI-Powered Debugger for Elite Developers. Login with GitHub to start your secure neural connection." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Animated background particles -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Floating grid overlay -->
+  <div class="grid-overlay"></div>
+
+  <!-- Scan line effect -->
+  <div class="scanline"></div>
+
+  <!-- Main container -->
+  <main class="landing-container">
+    <!-- Left: Spline 3D Robot -->
+    <section class="robot-section" id="robot-section">
+      <div class="spline-wrapper" id="spline-wrapper">
+        <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+        <spline-viewer url="https://prod.spline.design/QFQX1Iefud27gDpT/scene.splinecode" loading-anim-type="spinner-big-dark"></spline-viewer>
+      </div>
+      <!-- Glow ring beneath robot -->
+      <div class="robot-glow"></div>
+    </section>
+
+    <!-- Right: Login card -->
+    <section class="login-section" id="login-section">
+      <!-- Floating orbs decoration -->
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+
+      <div class="login-card" id="login-card">
+        <!-- Animated border -->
+        <div class="card-border-glow"></div>
+
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <span class="status-dot"></span>
+          <span class="status-text">SYSTEM ONLINE</span>
+        </div>
+
+        <!-- Logo -->
+        <div class="logo-container" id="logo-container">
+          <h1 class="logo-text">
+            <span class="logo-snap">snap</span><span class="logo-dot">.</span><span class="logo-it">it</span>
+          </h1>
+          <div class="logo-underline"></div>
+        </div>
+
+        <!-- Tagline -->
+        <p class="tagline" id="tagline">
+          The AI-Powered Debugger<br />for Elite Developers
+        </p>
+
+        <!-- Decorative code snippet -->
+        <div class="code-decoration">
+          <span class="code-line"><span class="code-keyword">const</span> <span class="code-var">future</span> = <span class="code-keyword">await</span> <span class="code-func">snap.it</span>();</span>
+        </div>
+
+        <!-- Login Button -->
+        <button class="login-btn" id="login-btn" type="button">
+          <div class="btn-glow"></div>
+          <svg class="github-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span class="btn-text">Login with GitHub</span>
+          <div class="btn-shimmer"></div>
+        </button>
+
+        <!-- Security badge -->
+        <div class="security-badge" id="security-badge">
+          <div class="badge-icon">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <span class="badge-text">&gt; SECURE NEURAL CONNECTION</span>
+          <div class="badge-pulse"></div>
+        </div>
+
+        <!-- Terminal-style footer -->
+        <div class="terminal-footer">
+          <span class="terminal-prompt">~$</span>
+          <span class="terminal-text" id="terminal-text"></span>
+          <span class="terminal-cursor">▌</span>
+        </div>
+      </div>
+
+      <!-- Floating tech labels -->
+      <div class="tech-label label-1">AI ENGINE v3.2</div>
+      <div class="tech-label label-2">NEURAL NET</div>
+      <div class="tech-label label-3">QUANTUM LINK</div>
+    </section>
+  </main>
+
+  <!-- Corner decorations -->
+  <div class="corner-decoration corner-tl"></div>
+  <div class="corner-decoration corner-tr"></div>
+  <div class="corner-decoration corner-bl"></div>
+  <div class="corner-decoration corner-br"></div>
+
+  <!-- Version tag -->
+  <div class="version-tag">v2.0.26 // DEMO BUILD</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
