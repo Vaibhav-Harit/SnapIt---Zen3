@@ -8,7 +8,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from github import Github
-from .models import UserProfile, Repository
+from users.models import UserProfile
+from indexer.models import Repository
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
