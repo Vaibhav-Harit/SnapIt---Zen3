@@ -9,12 +9,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-python_output.txt
-migrations_output.txt
-check_output.txt
-conflicts_all.txt
-conflicts_utf8.txt
-git_status_output.txt
 test_db_conn.py
 backend/db.sqlite3
 backend/db.sqlite3-journal
