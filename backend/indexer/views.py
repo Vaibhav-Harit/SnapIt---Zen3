@@ -24,17 +24,21 @@ def trigger_scan(request):
         return Response({"error": "GitHub token not found. Please re-authenticate."}, status=status.HTTP_401_UNAUTHORIZED)
 
     try:
-        service = CrawlerService()
-        repo_full_name = repo.name 
-        chunks = service.crawl(repo_full_name, profile.github_token, repo.repo_id)
+        # Step 1: Crawler extracts raw content (utf-8 decoded)
+        crawler = CrawlerService()
+        raw_files = crawler.get_raw_content(repo.name, profile.github_token)
+        
+        # Step 2: Vector service processes, chunks (1000/200), and indexes using Llama prefixing
+        vector_service = VectorService()
+        vector_service.process_and_index_repo(raw_files, str(repo.repo_id))
         
         return Response({
-            "message": "Repository crawled successfully",
-            "total_chunks": len(chunks),
-            "chunks": chunks
+            "message": "Repository indexed successfully",
+            "total_files": len(raw_files)
         }, status=status.HTTP_200_OK)
 
     except Exception as e:
+        print(f"Scan Trigger Error: {e}")
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 

@@ -104,3 +104,45 @@ class CrawlerService:
                 })
 
         return all_chunks
+
+    def get_raw_content(self, repo_name, token):
+        """
+        Extract raw file contents from the repository without chunking.
+        Returns a list of {"file_path": str, "content": str}.
+        Uses utf-8 for string operations context-specific safe decoding.
+        """
+        g = Github(token)
+        repo = g.get_repo(repo_name)
+        tree = repo.get_git_tree(repo.default_branch, recursive=True)
+        
+        raw_files = []
+
+        for element in tree.tree:
+            # Only index blobs within the maximum size limit
+            if element.type != "blob" or element.size > self.MAX_FILE_SIZE:
+                continue
+
+            path_obj = pathlib.Path(element.path)
+            # Skip ignored directories
+            if any(part in self.IGNORED_DIRS for part in path_obj.parts):
+                continue
+
+            # Only index supported extensions
+            ext = path_obj.suffix.lower()
+            if ext in self.IGNORED_EXTENSIONS or ext not in self.SUPPORTED_EXTENSIONS:
+                continue
+
+            try:
+                blob = repo.get_git_blob(element.sha)
+                # Standardize to utf-8 as required for Windows local refinement
+                content = base64.b64decode(blob.content).decode('utf-8')
+                
+                raw_files.append({
+                    "file_path": str(path_obj),
+                    "content": content
+                })
+            except Exception as e:
+                print(f"Error fetching blob {element.path}: {e}")
+                continue
+
+        return raw_files

@@ -39,6 +39,15 @@ class VectorService:
                 raise ValueError("PINECONE_API_KEY and PINECONE_INDEX_NAME must be set in environment variables.")
         return self._index
 
+    @property
+    def pc(self):
+        """Lazy loader for the Pinecone client."""
+        if self._pc is None:
+            self._initialize_client()
+            if self._pc is None:
+                raise ValueError("PINECONE_API_KEY must be set in environment variables.")
+        return self._pc
+
     def search(self, raw_query: str, repo_id: str, top_k: int = 5) -> List[Dict[str, Any]]:
         """
         Performs dual searches: 'repo_{repo_id}' (Private code) and 'public' (Global community knowledge).
@@ -114,6 +123,90 @@ class VectorService:
 
         results = sorted(unique_matches.values(), key=get_score, reverse=True)
         return results[:top_k]
+
+    def process_and_index_repo(self, raw_content_list: List[Dict[str, Any]], repo_id: str):
+        """
+        Process raw repo content: normalized cleaning, chunking, and Llama prefixing.
+        Then push to Pinecone with server-side inference.
+        """
+        all_vectors = []
+        for item in raw_content_list:
+            file_path = item['file_path']
+            content = item['content']
+            
+            # 1. TEXT CLEANING: Replace \r\n (Windows) with \n (Unix) for normalization
+            content = content.replace('\r\n', '\n')
+            
+            # 2. CHUNKING: 1000-character chunks with a 200-character overlap
+            chunk_size = 1000
+            overlap = 200
+            chunks = []
+            
+            if len(content) <= chunk_size:
+                chunks.append(content)
+            else:
+                start = 0
+                while start < len(content):
+                    end = start + chunk_size
+                    chunk = content[start:end]
+                    chunks.append(chunk)
+                    # Next chunk starts 'overlap' characters before 'end'
+                    start += (chunk_size - overlap)
+                    if start >= len(content):
+                        break
+            
+            # 3. PREFIXING and Vector Prep
+            for i, chunk_text in enumerate(chunks):
+                # For Llama-text-embed-v2, prefix every passage string with "passage: "
+                prefixed_text = f"passage: {chunk_text}"
+                
+                # Metadata: { file_path, repo_id, content: original_chunk_text }
+                metadata = {
+                    "file_path": file_path,
+                    "repo_id": repo_id,
+                    "content": chunk_text  # original raw text
+                }
+                
+                # ID FORMAT: Generate unique IDs as f"{repo_id}_{file_path}_{chunk_index}"
+                vector_id = f"{repo_id}_{file_path}_{i+1}"
+                
+                # This 'text' field is used for server-side Integrated Inference
+                # We store the Llama-prefixed version as 'text' for embedding
+                all_vectors.append({
+                    "id": vector_id,
+                    "metadata": metadata,
+                    "text": prefixed_text
+                })
+
+        # 4. EXECUTION: Push these vectors into the namespace f"repo_{repo_id}"
+        namespace = f"repo_{repo_id}"
+        self.upsert_with_inference(all_vectors, namespace)
+
+    def upsert_with_inference(self, vectors: List[Dict[str, Any]], namespace: str):
+        """
+        Pushes vectors into Pinecone using server-side inference.
+        Batches the upserts into groups of 100 to avoid rate limits and optimize speed.
+        """
+        batch_size = 100
+        for i in range(0, len(vectors), batch_size):
+            batch = vectors[i : i + batch_size]
+            try:
+                # Building the list of records for upsert
+                upsert_data = []
+                for v in batch:
+                    # Map prefixed text to metadata for Integrated Inference if model is configured
+                    v['metadata']['text'] = v['text'] 
+                    
+                    upsert_data.append({
+                        "id": v['id'],
+                        "metadata": v['metadata']
+                    })
+                
+                self.index.upsert(vectors=upsert_data, namespace=namespace)
+                print(f"Index Success: Upserted batch of {len(upsert_data)} to {namespace}")
+            except Exception as e:
+                print(f"Index Error: Failed to push batch to {namespace}: {e}")
+                raise
 
 # Global instance for easy import
 vector_service = VectorService()
