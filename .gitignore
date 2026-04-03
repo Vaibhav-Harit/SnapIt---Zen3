@@ -1,0 +1,40 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+python_output.txt
+migrations_output.txt
+check_output.txt
+conflicts_all.txt
+conflicts_utf8.txt
+git_status_output.txt
+test_db_conn.py
+backend/db.sqlite3
+backend/db.sqlite3-journal
+backend/*.log
+.env
+
+# Node / React
+node_modules/
+dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+
+# IDEs / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

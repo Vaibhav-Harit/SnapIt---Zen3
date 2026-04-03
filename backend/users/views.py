@@ -8,7 +8,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from github import Github
-from .models import UserProfile, Repository
+from users.models import UserProfile
+from indexer.models import Repository
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -63,7 +64,7 @@ def github_callback(request):
             repo_id=r.id,
             owner=profile,
             defaults={
-                'name': r.name,
+                'name': r.full_name,
                 'default_branch': r.default_branch
             }
         )
