@@ -10,8 +10,6 @@ ENV/
 env.bak/
 venv.bak/
 test_db_conn.py
-backend/db.sqlite3
-backend/db.sqlite3-journal
 backend/*.log
 .env
 
