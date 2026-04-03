@@ -64,7 +64,7 @@ def github_callback(request):
             repo_id=r.id,
             owner=profile,
             defaults={
-                'name': r.name,
+                'name': r.full_name,
                 'default_branch': r.default_branch
             }
         )
