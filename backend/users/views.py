@@ -23,7 +23,6 @@ def github_callback(request):
     if not code:
         return Response({"error": "Missing code"}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Exchange code for token
     token_url = "https://github.com/login/oauth/access_token"
     data = {
         "client_id": settings.GITHUB_CLIENT_ID,
@@ -40,7 +39,6 @@ def github_callback(request):
     if not access_token:
         return Response({"error": "Failed to get access token"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    # Fetch GitHub user
     g = Github(access_token)
     g_user = g.get_user()
     username = getattr(g_user, 'login', None)
@@ -48,7 +46,6 @@ def github_callback(request):
     if not username:
         return Response({"error": "Failed to fetch GitHub user"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    # Django User auth
     user, _ = User.objects.get_or_create(username=username)
     if g_user.email and not user.email:
         user.email = g_user.email
@@ -60,7 +57,6 @@ def github_callback(request):
     profile.save()
     login(request, user)
 
-    # Sync repositories
     repos_data = []
     for r in g_user.get_repos():
         repo_obj, _ = Repository.objects.update_or_create(
@@ -78,4 +74,3 @@ def github_callback(request):
         })
 
     return Response({"repos": repos_data})
-
