@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NavItem from './NavItem';
 
 /**
@@ -20,12 +20,35 @@ const Sidebar = ({ currentPath = '/home', onLogout }) => {
 
       {/* Navigation Middle Section */}
       <nav className="flex flex-col gap-2">
+        {/* 1. Local Workspace (Default) */}
         <NavItem
-          label="Home"
+          label="Local Workspace"
           isActive={currentPath === '/home'}
           icon={(props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
+              <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+            </svg>
+          )}
+        />
+
+        {/* 2. My Projects */}
+        <NavItem
+          label="My Projects"
+          isActive={currentPath === '/projects'}
+          icon={(props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+            </svg>
+          )}
+        />
+
+        {/* 3. Global Memory */}
+        <NavItem
+          label="Global Memory"
+          isActive={currentPath === '/memory'}
+          icon={(props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
             </svg>
           )}
         />

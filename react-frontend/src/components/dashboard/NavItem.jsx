@@ -12,8 +12,8 @@ const NavItem = ({ icon: Icon, label, isActive = false, onClick, className = '' 
         group flex items-center gap-3 w-full px-4 py-3 rounded-xl
         transition-all duration-300 ease-out
         ${isActive 
-          ? 'bg-purple-500/10 text-white translate-x-1 shadow-[0_0_20px_rgba(139,92,246,0.15)]' 
-          : 'text-gray-400 hover:text-white hover:bg-purple-500/10 hover:translate-x-1'
+          ? 'bg-white/[0.04] text-white translate-x-1 shadow-[0_0_25px_rgba(168,85,247,0.15),0_0_25px_rgba(34,211,238,0.05)] border border-white/5' 
+          : 'text-gray-400 hover:text-white hover:bg-white/[0.02] hover:translate-x-1'
         }
         ${className}
       `}

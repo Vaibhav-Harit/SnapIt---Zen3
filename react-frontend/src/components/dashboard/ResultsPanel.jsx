@@ -75,19 +75,22 @@ const RefinementChatBox = () => {
 /**
  * ResolutionActions
  * Bottom row of buttons for finalizing the solution.
+ * Conditionally shows PR action only in project-linked mode.
  */
-const ResolutionActions = () => {
+const ResolutionActions = ({ isProjectMode = false }) => {
   return (
     <div className="w-full flex sm:flex-row flex-col gap-4 pt-2">
-      {/* Primary: GitHub PR */}
-      <button className="flex-1 py-3.5 rounded-xl font-medium text-sm text-white bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-cyan-500/10 transition-all duration-300 flex justify-center items-center gap-2.5 group shadow-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
-          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-        </svg>
-        <span>Create Branch & PR</span>
-      </button>
+      {/* Primary: GitHub PR - Only shown in dedicated Project environment */}
+      {isProjectMode && (
+        <button className="flex-1 py-3.5 rounded-xl font-medium text-sm text-white bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-cyan-500/10 transition-all duration-300 flex justify-center items-center gap-2.5 group shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+          <span>Create Branch & PR</span>
+        </button>
+      )}
 
-      {/* Secondary: Resolve */}
+      {/* Secondary: Resolve - Stretches to 100% if PR button is hidden */}
       <button className="flex-1 py-3.5 rounded-xl font-medium text-sm text-gray-400 bg-transparent border border-white/5 hover:border-green-500/50 hover:text-green-400 hover:bg-green-500/5 transition-all duration-300 flex justify-center items-center gap-2.5 group">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
           <polyline points="20 6 9 17 4 12"/>
