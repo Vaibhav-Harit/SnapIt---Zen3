@@ -6,7 +6,7 @@ import { useTilt } from '../hooks/useTilt';
  * Login section containing the 3D tilt card and background orbs.
  * Separates decorative elements and layout logic.
  */
-const LoginSection = () => {
+const LoginSection = ({ onLogin }) => {
   const sectionRef = useRef(null);
   const cardRef = useRef(null);
   
@@ -29,7 +29,7 @@ const LoginSection = () => {
         ref={cardRef} 
         className="w-full max-w-[420px] px-5 sm:px-0 transition-transform duration-600 ease-[cubic-bezier(0.16,1,0.3,1)]"
       >
-        <LoginCard />
+        <LoginCard onLogin={onLogin} />
       </div>
 
       {/* Decorative Technical Labels (Visible only on desktop) */}

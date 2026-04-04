@@ -5,7 +5,7 @@ import { useRipple } from '../../hooks/useRipple';
  * Premium GitHub Login Button
  * Includes a shimmer effect, ripple on click, and hover glow.
  */
-const GitHubButton = () => {
+const GitHubButton = ({ onClick }) => {
   const btnRef = useRef(null);
   
   // Custom hook for button ripple interaction
@@ -15,6 +15,7 @@ const GitHubButton = () => {
     <button
       ref={btnRef}
       type="button"
+      onClick={onClick}
       className="relative w-full flex items-center justify-center gap-3 py-4 px-8 bg-gradient-btn text-white font-body text-[0.95rem] font-semibold tracking-wide border-none rounded-btn cursor-pointer overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_4px_20px_rgba(139,92,246,0.3)] hover:bg-gradient-btn-hover hover:-translate-y-[2px] hover:shadow-[0_8px_30px_rgba(139,92,246,0.4),0_0_0_3px_rgba(139,92,246,0.15)] active:scale-98 active:translate-y-0 group"
     >
       {/* Background Hover Glow */}
