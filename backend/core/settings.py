@@ -9,6 +9,9 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 GITHUB_CLIENT_ID = env('GITHUB_CLIENT_ID', default='')
 GITHUB_CLIENT_SECRET = env('GITHUB_CLIENT_SECRET', default='')
+GEMINI_API_KEY = env('GEMINI_API_KEY', default='')
+PINECONE_API_KEY = env('PINECONE_API_KEY', default='')
+GROQ_API_KEY = env('GROQ_API_KEY', default='')
 
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-x)^8__g_k49@+3e8lyz7-!b*ivvt0#ry+^f3@bo&b*2)5r8c!g')
 DEBUG = True

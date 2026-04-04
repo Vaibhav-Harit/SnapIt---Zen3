@@ -65,7 +65,10 @@ class VectorService:
                 inputs=[text],
                 parameters={"input_type": "query"}
             )
-            return embeddings[0].values
+            try:
+                return embeddings.data[0].values
+            except AttributeError:
+                return embeddings.results[0].values
         except Exception as e:
             # Basic error handling for API timeouts or connection issues
             print(f"Error generating embedding via Pinecone Inference: {e}")
@@ -107,6 +110,29 @@ class VectorService:
         except Exception as e:
             print(f"Error upserting document to namespace {namespace}: {e}")
             raise
+
+    def query_pinecone(self, query_text, repo_id, top_k=5):
+        """Retrieve the most relevant code chunks for a given query."""
+        namespace = f"repo_{repo_id}"
+        query_embedding = self.get_embedding(query_text)
+        
+        results = self.index.query(
+            namespace=namespace,
+            vector=query_embedding,
+            top_k=top_k,
+            include_metadata=True
+        )
+        
+        context_chunks = []
+        if results and 'matches' in results:
+            for match in results['matches']:
+                meta = match.get('metadata', {})
+                text = meta.get('text', '')
+                file_path = meta.get('file_path', 'Unknown')
+                if text:
+                    context_chunks.append(f"--- FILE: {file_path} ---\n{text}")
+                    
+        return "\n\n".join(context_chunks)
 
     def query_vectors(self, query_text: str, user_id: int, repo_id: int, top_k: int = 5) -> List[Dict[str, Any]]:
         """
