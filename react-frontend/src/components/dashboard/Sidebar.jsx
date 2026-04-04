@@ -5,12 +5,12 @@ import NavItem from './NavItem';
  * Sidebar Navigation
  * Premium glassmorphic effect with User Profile widget and interactive states.
  */
-const Sidebar = ({ currentPath = '/home', onLogout }) => {
+const Sidebar = ({ currentView = 'workbench', onViewChange, onLogout }) => {
   return (
     <aside className="fixed left-0 top-0 h-screen w-72 flex flex-col p-6 bg-white/[0.02] backdrop-blur-xl border-r border-white/10 z-50">
       
       {/* Snap.it Logo Section */}
-      <div className="flex items-center mb-12 px-2">
+      <div className="flex items-center mb-12 px-2 cursor-pointer" onClick={() => onViewChange && onViewChange('workbench')}>
         <h1 className="font-display text-2xl font-bold tracking-widest text-white leading-none">
           snap
           <span className="text-pink-500 drop-shadow-[0_0_12px_rgba(236,72,153,0.8)] animate-dot-pulse">.</span>
@@ -23,7 +23,8 @@ const Sidebar = ({ currentPath = '/home', onLogout }) => {
         {/* 1. Local Workspace (Default) */}
         <NavItem
           label="Local Workspace"
-          isActive={currentPath === '/home'}
+          isActive={currentView === 'workbench'}
+          onClick={() => onViewChange && onViewChange('workbench')}
           icon={(props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
@@ -34,7 +35,8 @@ const Sidebar = ({ currentPath = '/home', onLogout }) => {
         {/* 2. My Projects */}
         <NavItem
           label="My Projects"
-          isActive={currentPath === '/projects'}
+          isActive={currentView === 'projects'}
+          onClick={() => onViewChange && onViewChange('projects')}
           icon={(props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
@@ -45,7 +47,8 @@ const Sidebar = ({ currentPath = '/home', onLogout }) => {
         {/* 3. Global Memory */}
         <NavItem
           label="Global Memory"
-          isActive={currentPath === '/memory'}
+          isActive={currentView === 'memory'}
+          onClick={() => onViewChange && onViewChange('memory')}
           icon={(props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>

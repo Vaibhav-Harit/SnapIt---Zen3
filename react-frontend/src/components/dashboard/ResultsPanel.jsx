@@ -105,12 +105,12 @@ const ResolutionActions = ({ isProjectMode = false }) => {
  * ResultsPanel
  * The entire Right Column container stacking the Code Output, Chat Box, and Actions.
  */
-const ResultsPanel = () => {
+const ResultsPanel = ({ isProjectMode = false }) => {
   return (
     <div className="flex flex-col gap-5 h-full">
       <CodeOutputEditor />
       <RefinementChatBox />
-      <ResolutionActions />
+      <ResolutionActions isProjectMode={isProjectMode} />
     </div>
   );
 };
