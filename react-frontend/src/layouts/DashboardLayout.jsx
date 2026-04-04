@@ -12,7 +12,7 @@ import ProjectsHub from '../components/dashboard/ProjectsHub';
  * Includes a premium glassmorphic sidebar and a main canvas area.
  */
 const DashboardLayout = ({ children, onLogout }) => {
-  const [currentView, setCurrentView] = useState('workbench'); // 'workbench' | 'projects' | 'memory'
+  const [currentView, setCurrentView] = useState('workbench'); // 'workbench' | 'projects' | 'history'
   const [activeRepo, setActiveRepo] = useState(null);
 
   const handleSelectRepo = (repo) => {
@@ -100,8 +100,11 @@ const DashboardLayout = ({ children, onLogout }) => {
           ) : currentView === 'projects' ? (
             <ProjectsHub onSelectRepo={handleSelectRepo} />
           ) : (
-            <div className="flex-1 flex items-center justify-center text-gray-500 font-mono italic">
-              View coming soon...
+            <div className="flex-1 flex flex-col items-center justify-center text-gray-500 font-mono italic gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="opacity-20">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <span>My Snaps view coming soon...</span>
             </div>
           )}
 
