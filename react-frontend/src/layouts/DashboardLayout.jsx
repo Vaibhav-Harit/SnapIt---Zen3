@@ -1,6 +1,8 @@
 import React from 'react';
 import Sidebar from '../components/dashboard/Sidebar';
-import VisionOcrUploader from '../components/dashboard/VisionOcrUploader';
+import DebugContextInput from '../components/dashboard/DebugContextInput';
+import SnapItButton from '../components/dashboard/SnapItButton';
+import TraceResultPanel from '../components/dashboard/TraceResultPanel';
 
 /**
  * DashboardLayout
@@ -14,18 +16,18 @@ const DashboardLayout = ({ children, onLogout }) => {
       {/* Premium Glass Sidebar */}
       <Sidebar onLogout={onLogout} />
 
-      {/* Main Canvas Placeholder - flexible container to the right */}
-      <main className="flex-1 ml-72 relative min-h-screen">
+      {/* Main Canvas - Scrollable container to the right of fixed sidebar */}
+      <main className="flex-1 ml-72 relative h-screen overflow-y-auto overflow-x-hidden scrollbar-hide">
         
         {/* Subtle Background Glow for Dashboard Canvas */}
         <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-accent-purple/5 blur-[120px] rounded-full pointer-events-none" />
         <div className="absolute bottom-[20%] left-[-5%] w-[300px] h-[300px] bg-accent-cyan/5 blur-[100px] rounded-full pointer-events-none" />
 
         {/* Padding Wrapper for Main Content Area */}
-        <div className="p-10 relative z-10 w-full min-h-screen flex flex-col gap-10">
+        <div className="p-4 md:p-6 lg:p-8 relative z-10 w-full min-h-full flex flex-col gap-6 pb-12">
           
           {/* 1. Core Network Status Banner (Rebuilt) */}
-          <div className="w-full h-32 bg-white/[0.02] backdrop-blur-md rounded-2xl border border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.15)] flex items-center justify-between p-6 relative overflow-hidden">
+          <div className="w-full h-20 bg-white/[0.02] backdrop-blur-md rounded-2xl border border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.15)] flex items-center justify-between p-3 relative overflow-hidden">
             
             {/* Left Metadata */}
             <h2 className="text-text-primary font-medium tracking-[0.3em] uppercase text-xs z-10 shrink-0 select-none">
@@ -51,35 +53,57 @@ const DashboardLayout = ({ children, onLogout }) => {
           </div>
 
           {/* 2. Workspace Grid (Restored) */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             
-            {/* Input Panel (Vision OCR) */}
-            <div className="flex flex-col gap-4">
+            {/* ── Left Input Column ── */}
+            <div className="w-full flex flex-col gap-4">
+
+              {/* Column Label */}
               <div className="flex items-center justify-between px-2">
-                <h3 className="text-[0.65rem] font-mono tracking-[0.3em] text-text-muted uppercase opacity-40 italic">Input :: Neural Stream</h3>
+                <h3 className="text-[0.65rem] font-mono tracking-[0.3em] text-text-muted uppercase opacity-40 italic">
+                  Input :: Neural Stream
+                </h3>
                 <div className="flex items-center gap-2">
-                   <div className="w-1 h-1 rounded-full bg-accent-purple animate-pulse" />
-                   <span className="text-[0.55rem] font-mono text-accent-purple tracking-widest opacity-60 uppercase">Vision Active</span>
+                  <div className="w-1 h-1 rounded-full bg-accent-purple animate-pulse" />
+                  <span className="text-[0.55rem] font-mono text-accent-purple tracking-widest opacity-60 uppercase">
+                    Vision Active
+                  </span>
                 </div>
               </div>
-              <VisionOcrUploader />
+
+              {/* 1. Compact Vision OCR Dropzone */}
+              <div className="w-full h-28 bg-white/[0.02] backdrop-blur-md rounded-2xl border border-white/5 p-4 flex flex-col items-center justify-center">
+                <div
+                  className="
+                    w-full h-full
+                    border-2 border-dashed border-white/10 rounded-xl
+                    hover:border-purple-500/60 hover:bg-purple-500/5
+                    transition-all cursor-pointer
+                    flex flex-col items-center justify-center gap-1
+                  "
+                >
+                  {/* Camera Icon */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+                    className="text-gray-500"
+                  >
+                    <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                    <circle cx="12" cy="13" r="3" />
+                  </svg>
+                  <span className="text-sm font-medium text-white select-none">Drop images here</span>
+                </div>
+              </div>
+
+              {/* 2. Debug Context Input (Terminal Textarea) */}
+              <DebugContextInput />
+
+              {/* 3. Primary Action Button */}
+              <SnapItButton />
             </div>
 
-            {/* Output Console Placeholder */}
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between px-2">
-                <h3 className="text-[0.65rem] font-mono tracking-[0.3em] text-text-muted uppercase opacity-40 italic">Output :: Trace Result</h3>
-                <div className="flex items-center gap-2">
-                   <div className="w-1 h-1 rounded-full bg-accent-cyan animate-pulse" />
-                   <span className="text-[0.55rem] font-mono text-accent-cyan tracking-widest opacity-60 uppercase">Sync Pending</span>
-                </div>
-              </div>
-              <div className="border border-dashed border-white/10 rounded-2xl min-h-[500px] flex items-center justify-center bg-white/[0.01]">
-                <span className="text-[0.65rem] font-mono text-text-muted opacity-20 uppercase tracking-[0.3em]">
-                  Output Console Placeholder
-                </span>
-              </div>
-            </div>
+            {/* Output Panel (Trace Result) */}
+            <TraceResultPanel />
             
           </div>
 
