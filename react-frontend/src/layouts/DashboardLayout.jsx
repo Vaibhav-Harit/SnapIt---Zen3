@@ -2,7 +2,7 @@ import React from 'react';
 import Sidebar from '../components/dashboard/Sidebar';
 import DebugContextInput from '../components/dashboard/DebugContextInput';
 import SnapItButton from '../components/dashboard/SnapItButton';
-import TraceResultPanel from '../components/dashboard/TraceResultPanel';
+import ResultsPanel from '../components/dashboard/ResultsPanel';
 
 /**
  * DashboardLayout
@@ -102,8 +102,8 @@ const DashboardLayout = ({ children, onLogout }) => {
               <SnapItButton />
             </div>
 
-            {/* Output Panel (Trace Result) */}
-            <TraceResultPanel />
+            {/* Output Panel (Results) */}
+            <ResultsPanel />
             
           </div>
 
